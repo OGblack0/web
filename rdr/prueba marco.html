@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video con Marco Animado</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #111;
+            margin: 0;
+            overflow: hidden; /* Evita que se desplace la página */
+        }
+
+        .video-container {
+            position: fixed; /* Fija el contenedor en la pantalla */
+            top: 50%; /* Centra verticalmente */
+            left: 50%; /* Centra horizontalmente */
+            transform: translate(-50%, -50%); /* Ajuste para centrar de manera precisa */
+            padding: 10px;
+            border-radius: 15px;
+            animation: borderAnimation 2s infinite alternate;
+        }
+
+        video {
+            display: block;
+            width: 600px;
+            border-radius: 10px;
+            pointer-events: none; /* Desactiva cualquier interacción con el video */
+        }
+
+        @keyframes borderAnimation {
+            0% {
+                box-shadow: 0 0 10px red;
+                border: 5px solid red;
+            }
+            50% {
+                box-shadow: 0 0 20px rgb(83, 20, 18);
+                border: 5px solid rgb(92, 31, 31);
+            }
+            100% {
+                box-shadow: 0 0 10px rgb(146, 148, 58);
+                border: 5px solid rgb(167, 160, 74);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="video-container">
+        <video controls preload="auto" disablePictureInPicture>
+            <source src="red historia.mp4" type="video/mp4">
+            <source src="red historia.webm" type="video/webm">
+            <source src="red historia.ogv" type="video/ogg">
+            Tu navegador no soporta el video.
+        </video>
+    </div>
+
+</body>
+</html>
