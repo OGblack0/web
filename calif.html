@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calificación de la Página</title>
+  <!-- Incluimos la librería de EmailJS -->
+  <script type="text/javascript" src="https://cdn.emailjs.com/sdk/2.3.2/email.min.js"></script>
+  <script type="text/javascript">
+    (function(){
+      emailjs.init("YOUR_USER_ID"); // Reemplaza con tu User ID de EmailJS
+    })();
+  </script>
+  <style>
+    /* Estilos para el popup y estrellas */
+    #popup {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      justify-content: center;
+      align-items: center;
+    }
+    #popupContent {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+      width: 300px;
+      margin: auto;
+    }
+    .stars {
+      display: flex;
+      justify-content: center;
+      margin: 10px 0;
+    }
+    .star {
+      font-size: 30px;
+      cursor: pointer;
+      color: #ccc;
+      transition: color 0.2s;
+    }
+    .star.selected {
+      color: gold;
+    }
+    button {
+      background-color: green;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      border-radius: 5px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Botón para abrir el popup -->
+  <button onclick="openPopup()">Califica nuestra página</button>
+
+  <!-- Popup de calificación -->
+  <div id="popup">
+    <div id="popupContent">
+      <h3>¿Cómo calificarías nuestra página?</h3>
+      <div class="stars">
+        <span class="star" onclick="selectStar(1)">&#9733;</span>
+        <span class="star" onclick="selectStar(2)">&#9733;</span>
+        <span class="star" onclick="selectStar(3)">&#9733;</span>
+        <span class="star" onclick="selectStar(4)">&#9733;</span>
+        <span class="star" onclick="selectStar(5)">&#9733;</span>
+      </div>
+      <button onclick="sendRating()">Enviar calificación</button>
+    </div>
+  </div>
+
+  <script>
+    let rating = 0;
+
+    // Abre el popup de calificación
+    function openPopup() {
+      document.getElementById('popup').style.display = 'flex';
+    }
+
+    // Permite seleccionar las estrellas y actualiza la visualización
+    function selectStar(num) {
+      rating = num;
+      const stars = document.getElementsByClassName('star');
+      for (let i = 0; i < stars.length; i++) {
+        stars[i].classList.toggle('selected', i < num);
+      }
+    }
+
+    // Envía la calificación a tu correo mediante EmailJS
+    function sendRating() {
+      if (rating === 0) {
+        alert("Por favor, selecciona una calificación.");
+        return;
+      }
+      // Parámetros que se enviarán a la plantilla de EmailJS
+      var templateParams = {
+        rating: rating,
+        // Puedes agregar otros campos si tu plantilla los requiere
+      };
+
+      emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', templateParams)
+        .then(function(response) {
+          alert("Calificación enviada exitosamente.");
+          document.getElementById('popup').style.display = 'none';
+        }, function(error) {
+          alert("Error al enviar la calificación: " + JSON.stringify(error));
+        });
+    }
+  </script>
+</body>
+</html>
